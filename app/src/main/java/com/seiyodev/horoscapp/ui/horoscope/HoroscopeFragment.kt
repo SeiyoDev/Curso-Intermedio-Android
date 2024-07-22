@@ -22,7 +22,6 @@ class HoroscopeFragment : Fragment() {
     ): View {
 
         _binding = FragmentHoroscopeBinding.inflate(layoutInflater, container, false)
-        // Inflate the layout for this fragment
         return binding.root
     }
 
