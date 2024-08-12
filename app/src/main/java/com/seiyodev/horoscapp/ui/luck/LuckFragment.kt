@@ -11,6 +11,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class LuckFragment : Fragment() {
 
+
+
     private var _binding: FragmentLuckBinding? = null
 
     // Esta propiedad es solo para lectura del de arriba. Se crea para que se pueda acceder al binding sin que se pueda modificar
