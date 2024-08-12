@@ -8,7 +8,7 @@ import com.seiyodev.horoscapp.domain.model.HoroscopeInfo.Capricorn
 import com.seiyodev.horoscapp.domain.model.HoroscopeInfo.Gemini
 import com.seiyodev.horoscapp.domain.model.HoroscopeInfo.Leo
 import com.seiyodev.horoscapp.domain.model.HoroscopeInfo.Libra
-import com.seiyodev.horoscapp.domain.model.HoroscopeInfo.Piscis
+import com.seiyodev.horoscapp.domain.model.HoroscopeInfo.Pisces
 import com.seiyodev.horoscapp.domain.model.HoroscopeInfo.Sagittarius
 import com.seiyodev.horoscapp.domain.model.HoroscopeInfo.Scorpio
 import com.seiyodev.horoscapp.domain.model.HoroscopeInfo.Taurus
@@ -21,7 +21,7 @@ class HoroscopeProvider @Inject constructor(){
             Aries, Taurus, Gemini,
             Cancer, Leo, Virgo,
             Libra, Scorpio, Sagittarius,
-            Capricorn, Aquarius, Piscis
+            Capricorn, Aquarius, Pisces
         )
     }
 }
