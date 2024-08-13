@@ -1,6 +1,8 @@
 package com.seiyodev.horoscapp.ui.luck
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +17,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.seiyodev.horoscapp.R
 import com.seiyodev.horoscapp.databinding.FragmentLuckBinding
+import com.seiyodev.horoscapp.ui.core.listeners.OnSwipeTouchListener
+import com.seiyodev.horoscapp.ui.providers.RandomCardProvider
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Random
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LuckFragment : Fragment() {
@@ -28,19 +33,60 @@ class LuckFragment : Fragment() {
     // Esta propiedad es solo para lectura del de arriba. Se crea para que se pueda acceder al binding sin que se pueda modificar
     private val binding get() = _binding!!
 
+    @Inject
+    lateinit var randomCardProvider: RandomCardProvider
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentLuckBinding.inflate(layoutInflater, container, false)
+        // Inflate the layout for this fragment
+        return binding.root
+    }
+
     private fun initUI() {
+        preparePredictions()
         initListeners()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initListeners() {
-        binding.ivRoulette.setOnClickListener{
-            spinRoulette()
+        binding.ivRoulette.setOnTouchListener(object : OnSwipeTouchListener(requireContext()){
+            override fun onSwipeRight() {
+                spinRoulette()
+            }
+
+            override fun onSwipeLeft() {
+                spinRoulette()
+            }
+        })
+    }
+
+    private fun preparePredictions() {
+        val luck = randomCardProvider.getLucky()
+        luck?.let {
+            val currentPrediction = getString(it.text)
+            binding.tvLucky.text = currentPrediction
+            binding.ivLuckyCard.setImageResource(it.image)
+            binding.tvShare.setOnClickListener{shareResult(currentPrediction)}
         }
+    }
+
+    private fun shareResult(prediction:String) {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, prediction)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 
     private fun spinRoulette() {
@@ -115,13 +161,5 @@ class LuckFragment : Fragment() {
         binding.prediction.startAnimation(appearAnimation)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentLuckBinding.inflate(layoutInflater, container, false)
-        // Inflate the layout for this fragment
-        return binding.root
-    }
 
 }
