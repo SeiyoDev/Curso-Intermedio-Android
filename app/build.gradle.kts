@@ -22,24 +22,37 @@ android {
     }
 
     buildTypes {
-        release {
+        getByName("release") {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            buildConfigField("String", "BASE_URL", "\"https://newastro.vercel.app/\"")
         }
+
+        getByName("debug") {
+            isDebuggable = true
+            resValue("string", "seiyoname", "[DEBUG] HoroscApp")
+            buildConfigField("String", "BASE_URL", "\"https://newastro-debug.vercel.app/\"")
+
+        }
+
+
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+
     }
     kotlinOptions {
         jvmTarget = "1.8"
     }
 
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -51,11 +64,14 @@ dependencies {
 
     // Dagger Hilt
     implementation(libs.dagger.hilt.android)
-    kapt (libs.dagger.hilt.compiler)
+    kapt(libs.dagger.hilt.compiler)
 
     //Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+
+    // Interceptor
+    implementation(libs.logging.interceptor)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
