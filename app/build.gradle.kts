@@ -53,6 +53,9 @@ dependencies {
     implementation(libs.dagger.hilt.android)
     kapt (libs.dagger.hilt.compiler)
 
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
