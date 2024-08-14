@@ -1,11 +1,16 @@
 package com.seiyodev.horoscapp.ui.palmistry
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.fragment.app.Fragment
 import com.seiyodev.horoscapp.databinding.FragmentPalmistryBinding
@@ -24,7 +29,7 @@ class PalmistryFragment : Fragment() {
         ActivityResultContracts.RequestPermission()
     ){ isGranted ->
         if(isGranted){
-            //startCamera
+            startCamera()
         } else {
             Toast.makeText(requireContext(), "Debes de aceptar los permisos de cámara para poder utilizar este apartado :)", Toast.LENGTH_LONG).show()
 
@@ -35,8 +40,7 @@ class PalmistryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if(checkCameraPermission()){
-            //Tiene permisos aceptados
-            //Start Camera
+            startCamera()
         } else {
             requestPermissionLauncher.launch(CAMERA_PERMISSION)
         }
@@ -53,6 +57,29 @@ class PalmistryFragment : Fragment() {
 
     private fun checkCameraPermission():Boolean{
        return PermissionChecker.checkSelfPermission(requireContext(), CAMERA_PERMISSION) == PermissionChecker.PERMISSION_GRANTED
+    }
+
+    private fun startCamera(){
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+
+        cameraProviderFuture.addListener({
+            val cameraProvider:ProcessCameraProvider = cameraProviderFuture.get()
+
+            val preview = Preview.Builder()
+                .build()
+                .also {
+                    it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
+                }
+
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+            try {
+                cameraProvider.unbindAll()
+                cameraProvider.bindToLifecycle(this, cameraSelector, preview)
+            } catch (e:Exception){
+                Log.e("seiyoerror", "Algo petó ${e.message}")
+            }
+        }, ContextCompat.getMainExecutor(requireContext()))
     }
 
 }
