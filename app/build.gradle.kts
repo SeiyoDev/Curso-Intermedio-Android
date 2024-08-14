@@ -73,6 +73,9 @@ dependencies {
     // Interceptor
     implementation(libs.logging.interceptor)
 
+    // Lottie Animations
+    implementation(libs.lottie)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

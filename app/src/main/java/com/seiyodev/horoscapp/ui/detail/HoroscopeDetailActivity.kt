@@ -90,11 +90,15 @@ class HoroscopeDetailActivity : AppCompatActivity() {
 
 
     private fun loadingState() {
-        binding.pb.isVisible = true
+        //binding.pb.isVisible = true
+        binding.lavLoading.isVisible = true
+
     }
 
     private fun successState(state: HoroscopeDetailState.Success) {
-        binding.pb.isVisible = false
+        //binding.pb.isVisible = false
+        binding.lavLoading.isVisible = false
+
         binding.tvTitle.text = state.sign
         binding.tvBody.text = state.prediction
 
@@ -117,7 +121,9 @@ class HoroscopeDetailActivity : AppCompatActivity() {
     }
 
     private fun errorState() {
-        binding.pb.isVisible = false
+        //binding.pb.isVisible = false
+        binding.lavLoading.isVisible = false
+
     }
 
 

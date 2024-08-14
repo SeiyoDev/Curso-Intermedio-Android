@@ -57,6 +57,8 @@ class LuckFragment : Fragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initListeners() {
+
+        // Esta parte nos permite detectar gestos de swipe e iniciamos la animacion de las cartas
         binding.ivRoulette.setOnTouchListener(object : OnSwipeTouchListener(requireContext()){
             override fun onSwipeRight() {
                 spinRoulette()

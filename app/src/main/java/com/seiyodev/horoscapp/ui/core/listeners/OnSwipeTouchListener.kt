@@ -5,6 +5,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 
+// Clase que nos permite detectar hacia dónde se hace el gesto al deslizar el dedo por la pantalla
 open class OnSwipeTouchListener(context:Context): View.OnTouchListener {
 
     companion object {
