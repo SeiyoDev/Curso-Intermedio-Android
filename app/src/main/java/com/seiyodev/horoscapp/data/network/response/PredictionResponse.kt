@@ -11,7 +11,8 @@ data class PredictionResponse(
     //Convertir a dominio
     fun toDomain():PredictionModel{
 
-        return PredictionModel(horoscope = horoscope,
+        return PredictionModel(
+            horoscope = horoscope,
             sign = sign)
     }
 }
